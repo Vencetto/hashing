@@ -12,7 +12,7 @@
 
 #include "ft_ssl.h"
 
-void	ft_md5(uint8_t *initial_msg, size_t initial_len)
+char	*ft_md5(uint8_t *initial_msg, size_t initial_len)
 {
 	uint32_t h0, h1, h2, h3;
 
@@ -71,7 +71,7 @@ void	ft_md5(uint8_t *initial_msg, size_t initial_len)
 	// Process the message in successive 512-bit chunks:
 	//for each 512-bit chunk of message:
 	int offset;
-	for(offset=0; offset<new_len; offset += (512/8))
+	for (offset = 0; offset < new_len; offset += (512/8))
 	{
 
 		// break chunk into sixteen 32-bit words w[j], 0 ≤ j ≤ 15
@@ -81,7 +81,7 @@ void	ft_md5(uint8_t *initial_msg, size_t initial_len)
 		printf("offset: %d %x\n", offset, offset);
 
 		int j;
-		for(j =0; j < 64; j++) printf("%x ", ((uint8_t *) w)[j]);
+		for(j = 0; j < 64; j++) printf("%x ", ((uint8_t *) w)[j]);
 		puts("");
 	#endif
 
@@ -115,16 +115,23 @@ void	ft_md5(uint8_t *initial_msg, size_t initial_len)
 
 	uint32_t f, g;
 
-	if (i < 16) {
+	if (i < 16)
+	{
 		f = (b & c) | ((~b) & d);
 		g = i;
-	} else if (i < 32) {
+	}
+	else if (i < 32)
+	{
 		f = (d & b) | ((~d) & c);
 		g = (5*i + 1) % 16;
-	} else if (i < 48) {
+	}
+	else if (i < 48)
+	{
 		f = b ^ c ^ d;
 		g = (3*i + 5) % 16;
-	} else {
+	}
+	else
+	{
 		f = c ^ (b | (~d));
 		g = (7*i) % 16;
 	}

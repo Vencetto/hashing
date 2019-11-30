@@ -14,16 +14,16 @@
 
 int		main(int ac, char **av)
 {
-	if (ac >= 3 && ac <= 4)
+	if (ac > 1)
 	{
 		if (ft_strcmp(av[1], "md5") == 0)
-			ft_md5((uint8_t*)av[ac - 1], strlen(av[ac - 1]));
-		//else if (ft_strcmp(av[1], "sha256") == 0)
-			//ft_sha256(av[ac - 1], sizeof(av[ac - 1]));
+			ft_md5Init(ac, av);
+		else if (ft_strcmp(av[1], "sha256") == 0)
+			;//ft_sha256Init(ac, av);
 		else
 			ft_putstr("Cannot identify command, try one of \"md5\" or \"sha256\" \n");
 	}
 	else
-		ft_putstr("usage: ./ft_ssl [md5|sha256] \"string\"\n");
+		ft_putstr("usage: ./ft_ssl [md5|sha256]");
 	return (0);
 }

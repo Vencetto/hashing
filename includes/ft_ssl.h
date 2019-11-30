@@ -13,16 +13,27 @@
 #ifndef FT_SSL_H
 # define FT_SSL_H
 
-# include "../libft/get_next_line.h"
+# include "ft_printf.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32 - (c))))
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <stdint.h>
 
+# define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32 - (c))))
 
-void	ft_md5(uint8_t *initial_msg, size_t initial_len);
+typedef struct	s_md5
+{
+	int			r;
+	int			s;
+	int			p;
+	int			q;
+	char		*input;
+}				t_md5;
 
+void	ft_md5Init(int ac, char **av);
+char	*ft_md5(uint8_t *initial_msg, size_t initial_len);
+void	ft_sha256(char *inputStr);
+char	*getInput(int fd);
 
 #endif
