@@ -60,6 +60,7 @@ typedef struct	s_md5
 	uint8_t			*output[4];
 	uint32_t		h[4];
 	uint8_t			*msg;
+	int			offset;
 }				t_md5;
 
 void	ft_md5Init(int ac, char **av);

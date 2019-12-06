@@ -24,27 +24,25 @@ void	printHashMD5(t_md5 *o, int newLine)
 		ft_printf("\n");
 }
 
+void	localInit(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
+{
+	uint32_t	bits_len;
 
+	ft_memcpy(o->msg, initial_msg, initial_len);
+	o->msg[initial_len] = 128;
+	bits_len = 8 * initial_len;
+	ft_memcpy(o->msg + o->newLen, &bits_len, 4);
+}
 
 char	*ft_md5(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
 {
-	int		new_len;
-	uint32_t	bits_len;
 	uint32_t	i;
-	int		offset;
 
-	new_len = ((((initial_len + 8) / 64) + 1) * 64) - 8;
-	o->msg = ft_memalloc(new_len + 64);
-	ft_memcpy(o->msg, initial_msg, initial_len);
-	o->msg[initial_len] = 128;
-	bits_len = 8*initial_len;
-	ft_memcpy(o->msg + new_len, &bits_len, 4);
-
-	offset = 0;
-	while (offset < new_len)
+	localInit(initial_msg, initial_len, o);
+	o->offset = 0;
+	while (o->offset < o->newLen)
 	{
-
-		uint32_t *w = (uint32_t *) (o->msg + offset);
+		uint32_t *w = (uint32_t *) (o->msg + o->offset);
 		uint32_t a = o->h[0];
 		uint32_t b = o->h[1];
 		uint32_t c = o->h[2];
@@ -54,7 +52,6 @@ char	*ft_md5(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
 		while (++i < 64)
 		{
 			uint32_t f, g;
-
 			if (i < 16)
 			{
 				f = (b & c) | ((~b) & d);
@@ -63,17 +60,17 @@ char	*ft_md5(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
 			else if (i < 32)
 			{
 				f = (d & b) | ((~d) & c);
-				g = (5*i + 1) % 16;
+				g = (5 * i + 1) % 16;
 			}
 			else if (i < 48)
 			{
 				f = b ^ c ^ d;
-				g = (3*i + 5) % 16;
+				g = (3 * i + 5) % 16;
 			}
 			else
 			{
 				f = c ^ (b | (~d));
-				g = (7*i) % 16;
+				g = (7 * i) % 16;
 			}
 
 			uint32_t temp = d;
@@ -81,13 +78,12 @@ char	*ft_md5(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
 			c = b;
 			b = b + LEFTROTATE((a + f + g_k[i] + w[g]), g_r[i]);
 			a = temp;
-
 		}
 		o->h[0] += a;
 		o->h[1] += b;
 		o->h[2] += c;
 		o->h[3] += d;
-		offset += (512/8);
+		o->offset += (512/8);
 	}
 	free(o->msg);
 
