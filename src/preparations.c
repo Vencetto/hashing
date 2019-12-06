@@ -29,49 +29,41 @@ char	*getInput(int fd)
 	return (res);
 }
 
-char	*ft_reverse(char **strToReverse)
-{
-	char	*tempStr;
-	int		i;
-	int		len;
-
-	ft_printf("%s %p\n", *strToReverse, *strToReverse);
-	tempStr = ft_strdup(*strToReverse);
-	ft_printf("%s %p\n", tempStr, tempStr);
-	len = ft_strlen(*strToReverse);
-	i = 0;
-	while (i < len)
-	{
-		(*strToReverse)[i] = tempStr[len - i + 1];
-		(*strToReverse)[i + 1] = tempStr[len - i + 2];
-		i += 2;
-	}
-	free(tempStr);
-	system("leaks ./ft_ssl");
-	return (*strToReverse);
-}
-
 void	md5Executor(t_md5 *o)
 {
-	char	*output;
+	ft_md5((uint8_t *)o->input, ft_strlen(o->input));
+	return ;
 
-	output = ft_md5((uint8_t *)o->input, strlen(o->input));
 	if (o->q)
 	{
-		ft_printf("%s\n", output);
+		ft_md5((uint8_t *)o->input, ft_strlen(o->input));
+		ft_printf("\n");
 		return ;
 	}
-	if (o->p)
+	if (o->p && !o->isFile)
 		ft_printf("%s\n", o->input);
-	if (o->r){
-		ft_printf("%s %p\n", output, output);
-		output = ft_reverse(&output);
-		ft_printf("%s %p\n", output, output);
-	}
-	if (o->s)
-		ft_printf("MD5 (\"%s\") = ", output);
+	if (o->isStr || o->isFile)
+		stringFileCase(o);
 	else
-		ft_printf("%s\n", output);
+	{
+		ft_md5((uint8_t *)o->input, ft_strlen(o->input));
+		ft_printf("\n");
+	}
+}
+
+int	tryOpen(char *fileName, t_md5 *o)
+{
+	int	fd;
+
+	if (fd = open(fileName, O_RDONLY) <= 0)
+	{
+		ft_printf("%s: No such file or directory\n", fileName);
+		return (0);
+	}
+	o->input = getInput(fd);
+	o->isFile = 1;
+	close(fd);
+	return (1);
 }
 
 void	ft_md5Init(int ac, char **av)
@@ -93,8 +85,11 @@ void	ft_md5Init(int ac, char **av)
 		else if (ft_strcmp(av[i], "-s") == 0 && ac >= i + 1)
 		{
 			o.input = av[i + 1];
-			o.s = 1;
+			o.isStr = 1;
 		}
+		else
+			if (!tryOpen(av[i], &o))
+				break;
 	}
 	md5Executor(&o);
 }

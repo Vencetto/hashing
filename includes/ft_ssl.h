@@ -19,16 +19,20 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdint.h>
+# include <fcntl.h>
 
 # define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32 - (c))))
 
 typedef struct	s_md5
 {
 	int			r;
-	int			s;
+	int			isStr;
 	int			p;
 	int			q;
-	char		*input;
+	int			isFile;
+	char			*fileName;
+	char			*input;
+	int			output[16];
 }				t_md5;
 
 void	ft_md5Init(int ac, char **av);

@@ -12,15 +12,16 @@
 
 #include "ft_ssl.h"
 
+struct{
+	uint32_t	h[4];
+	uint8_t		*msg;
+}
+
 char	*ft_md5(uint8_t *initial_msg, size_t initial_len)
 {
-	uint32_t h0, h1, h2, h3;
 
-	// Message (to prepare)
-	uint8_t *msg = NULL;
 
-	// Note: All variables are unsigned 32 bit and wrap modulo 2^32 when calculating
-	// r specifies the per-round shift amounts
+
 	uint32_t r[] = {7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
 					5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20,
 					4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
@@ -157,7 +158,7 @@ char	*ft_md5(uint8_t *initial_msg, size_t initial_len)
 	// cleanup
 	free(msg);
 
-	uint8_t	*p;
+	uint8_t		*p;
 
 	// display result
 	p = (uint8_t *)&h0;

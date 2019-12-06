@@ -12,7 +12,13 @@
 
 #include "ft_ssl.h"
 
-int		main(int ac, char **av)
+void	ft_printCommands(void)
+{
+	ft_printf("%s\n \n%s\n %s\n %s\n\n %s\n", "Standart commands:",
+	"Message Digestcommands:","md5", "sha256", "Cipher commands:");
+}
+
+int	main(int ac, char **av)
 {
 	if (ac > 1)
 	{
@@ -21,9 +27,9 @@ int		main(int ac, char **av)
 		else if (ft_strcmp(av[1], "sha256") == 0)
 			;//ft_sha256Init(ac, av);
 		else
-			ft_putstr("Cannot identify command, try one of \"md5\" or \"sha256\" \n");
+			ft_printCommands();
 	}
 	else
-		ft_putstr("usage: ./ft_ssl [md5|sha256]");
+		ft_putstr("usage: ./ft_ssl command [command opts] [command args]\n");
 	return (0);
 }
