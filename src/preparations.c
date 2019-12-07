@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+#include "ft_sha256.h"
 
 void	full_init(t_md5 *o)
 {
@@ -22,7 +22,7 @@ void	full_init(t_md5 *o)
 	o->msg = ft_memalloc(o->new_len + 64);
 }
 
-void	check_flags_md5(int ac, char **av, t_flags *f)
+void	check_flags(int ac, char **av, t_flags *f)
 {
 	int	i;
 
@@ -38,6 +38,34 @@ void	check_flags_md5(int ac, char **av, t_flags *f)
 	}
 }
 
+void	ft_sha256_init(int ac, char **av)
+{
+	t_flags	f;
+	char	buff[2];
+	int		i;
+
+
+//	SHA256(av[ac - 1], ft_strlen(av[ac - 1]), NULL);
+//return ;
+
+	ft_bzero(&f, sizeof(f));
+	check_flags(ac, av, &f);
+	i = 1;
+	while (++i < ac)
+	{
+		if (f.p)
+			;//p_flag_sha256(&f, get_input(0));
+		if (ft_strequ(av[i], "-s") && ac > i)
+			;//string_sha256(&f, av[++i]);
+		else if (!ft_strequ(av[i], "-r") && !ft_strequ(av[i], "-q")
+			&& !ft_strequ(av[i], "-p"))
+			;//file_sha256(&f, av[i]);
+	}
+	if (!f.read_try)
+		;//stdin_sha256(&f);
+}
+
+
 void	ft_md5_init(int ac, char **av)
 {
 	t_flags	f;
@@ -45,7 +73,7 @@ void	ft_md5_init(int ac, char **av)
 	int		i;
 
 	ft_bzero(&f, sizeof(f));
-	check_flags_md5(ac, av, &f);
+	check_flags(ac, av, &f);
 	i = 1;
 	while (++i < ac)
 	{

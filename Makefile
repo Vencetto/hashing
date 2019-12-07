@@ -1,6 +1,6 @@
 NAME = ft_ssl
 
-SRC =	src/main.c src/ft_md5.c src/preparations.c src/additional.c src/md5flags.c
+SRC =	src/main.c src/ft_md5.c src/preparations.c src/additional.c src/md5flags.c src/ft_sha256.c
 
 OBJ =	main.o ft_md5.o preparations.o additional.o md5flags.o
 

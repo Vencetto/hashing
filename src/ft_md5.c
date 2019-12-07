@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+#include "ft_md5.h"
 
 void	local_init(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
 {

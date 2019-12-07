@@ -10,16 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+#include "ft_sha256.h"
 
-#include <openssl/opensslconf.h>
-
-#include <stdlib.h>
-#include <string.h>
-
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/opensslv.h>
 
 int SHA224_Init(SHA256_CTX *c)
 {
