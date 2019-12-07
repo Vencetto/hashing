@@ -34,8 +34,6 @@ int		try_open(char *file_name, t_md5 *o)
 		return (0);
 	}
 	o->input = get_input(fd);
-	o->file_name = file_name;
-	o->isFile = 1;
 	close(fd);
 	return (1);
 }

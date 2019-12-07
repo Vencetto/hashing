@@ -19,7 +19,7 @@ void	local_init(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
 	ft_memcpy(o->msg, initial_msg, initial_len);
 	o->msg[initial_len] = 128;
 	bits_len = 8 * initial_len;
-	ft_memcpy(o->msg + o->newLen, &bits_len, 4);
+	ft_memcpy(o->msg + o->new_len, &bits_len, 4);
 }
 
 void	those_formulas(t_vars *v, int i)
@@ -89,7 +89,7 @@ void	ft_md5(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
 
 	local_init(initial_msg, initial_len, o);
 	v.offset = 0;
-	while (v.offset < o->newLen)
+	while (v.offset < o->new_len)
 		all_the_math(&v, o);
 	free(o->msg);
 	save_result(o);

@@ -1,10 +1,10 @@
 NAME = ft_ssl
 
-SRC =	src/main.c src/ft_md5.c src/preparations.c src/additional.c
+SRC =	src/main.c src/ft_md5.c src/preparations.c src/additional.c src/md5flags.c
 
-OBJ =	main.o ft_md5.o preparations.o additional.o
+OBJ =	main.o ft_md5.o preparations.o additional.o md5flags.o
 
-FLAGS = -Wall -Wextra -Werror #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 all: $(NAME)
 
