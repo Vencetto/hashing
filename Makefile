@@ -1,8 +1,8 @@
 NAME = ft_ssl
 
-SRC =	src/main.c src/ft_md5.c src/preparations.c
+SRC =	src/main.c src/ft_md5.c src/preparations.c src/additional.c
 
-OBJ =	main.o ft_md5.o preparations.o
+OBJ =	main.o ft_md5.o preparations.o additional.o
 
 FLAGS = -Wall -Wextra -Werror #-fsanitize=address
 

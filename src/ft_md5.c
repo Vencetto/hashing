@@ -12,19 +12,7 @@
 
 #include "ft_ssl.h"
 
-void	printHashMD5(t_md5 *o, int newLine)
-{
-	int i;
-
-	i = -1;
-	while (++i < 4)
-		ft_printf("%2.2x%2.2x%2.2x%2.2x", o->output[i][0],
-		o->output[i][1], o->output[i][2], o->output[i][3]);
-	if (newLine)
-		ft_printf("\n");
-}
-
-void	localInit(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
+void	local_init(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
 {
 	uint32_t	bits_len;
 
@@ -34,60 +22,75 @@ void	localInit(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
 	ft_memcpy(o->msg + o->newLen, &bits_len, 4);
 }
 
-char	*ft_md5(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
+void	those_formulas(t_vars *v, int i)
+{
+	if (i < 16)
+	{
+		v->f = (v->b & v->c) | ((~v->b) & v->d);
+		v->g = i;
+	}
+	else if (i < 32)
+	{
+		v->f = (v->d & v->b) | ((~v->d) & v->c);
+		v->g = (5 * i + 1) % 16;
+	}
+	else if (i < 48)
+	{
+		v->f = v->b ^ v->c ^ v->d;
+		v->g = (3 * i + 5) % 16;
+	}
+	else
+	{
+		v->f = v->c ^ (v->b | (~v->d));
+		v->g = (7 * i) % 16;
+	}
+}
+
+void	all_the_math(t_vars *v, t_md5 *o)
+{
+	int			i;
+	uint32_t	temp;
+
+	v->w = (uint32_t*)(o->msg + v->offset);
+	v->a = o->h[0];
+	v->b = o->h[1];
+	v->c = o->h[2];
+	v->d = o->h[3];
+	i = -1;
+	while (++i < 64)
+	{
+		those_formulas(v, i);
+		temp = v->d;
+		v->d = v->c;
+		v->c = v->b;
+		v->b = v->b + LEFTROTATE((v->a + v->f + g_k[i] + v->w[v->g]), g_r[i]);
+		v->a = temp;
+	}
+	o->h[0] += v->a;
+	o->h[1] += v->b;
+	o->h[2] += v->c;
+	o->h[3] += v->d;
+	v->offset += (512 / 8);
+}
+
+void	save_result(t_md5 *o)
+{
+	int	i;
+
+	i = -1;
+	while (++i < 4)
+		o->output[i] = (uint8_t *)&o->h[i];
+}
+
+void	ft_md5(uint8_t *initial_msg, size_t initial_len, t_md5 *o)
 {
 	uint32_t	i;
+	t_vars		v;
 
-	localInit(initial_msg, initial_len, o);
-	o->offset = 0;
-	while (o->offset < o->newLen)
-	{
-		uint32_t *w = (uint32_t *) (o->msg + o->offset);
-		uint32_t a = o->h[0];
-		uint32_t b = o->h[1];
-		uint32_t c = o->h[2];
-		uint32_t d = o->h[3];
-
-		i = -1;
-		while (++i < 64)
-		{
-			uint32_t f, g;
-			if (i < 16)
-			{
-				f = (b & c) | ((~b) & d);
-				g = i;
-			}
-			else if (i < 32)
-			{
-				f = (d & b) | ((~d) & c);
-				g = (5 * i + 1) % 16;
-			}
-			else if (i < 48)
-			{
-				f = b ^ c ^ d;
-				g = (3 * i + 5) % 16;
-			}
-			else
-			{
-				f = c ^ (b | (~d));
-				g = (7 * i) % 16;
-			}
-
-			uint32_t temp = d;
-			d = c;
-			c = b;
-			b = b + LEFTROTATE((a + f + g_k[i] + w[g]), g_r[i]);
-			a = temp;
-		}
-		o->h[0] += a;
-		o->h[1] += b;
-		o->h[2] += c;
-		o->h[3] += d;
-		o->offset += (512/8);
-	}
+	local_init(initial_msg, initial_len, o);
+	v.offset = 0;
+	while (v.offset < o->newLen)
+		all_the_math(&v, o);
 	free(o->msg);
-
-	int c = -1;
-	while (++c < 4)
-		o->output[c] = (uint8_t *) & o->h[c];
+	save_result(o);
 }

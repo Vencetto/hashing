@@ -54,19 +54,31 @@ typedef struct	s_md5
 	int			q;
 	int			isFile;
 	int			isStr;
-	char			*fileName;
-	char			*input;
+	char		*file_name;
+	char		*input;
 	int			newLen;
-	uint8_t			*output[4];
-	uint32_t		h[4];
-	uint8_t			*msg;
-	int			offset;
+	uint8_t		*output[4];
+	uint32_t	h[4];
+	uint8_t		*msg;
 }				t_md5;
 
-void	ft_md5Init(int ac, char **av);
-char	*ft_md5(uint8_t *initial_msg, size_t initial_len, t_md5 *o);
+typedef struct	s_vars
+{
+	uint32_t	a;
+	uint32_t	b;
+	uint32_t	c;
+	uint32_t	d;
+	uint32_t	f;
+	uint32_t	g;
+	uint32_t	*w;
+	int			offset;
+}				t_vars;
+
+void	ft_md5_init(int ac, char **av);
+void	ft_md5(uint8_t *initial_msg, size_t initial_len, t_md5 *o);
 void	ft_sha256(char *inputStr);
-char	*getInput(int fd);
-void	printHashMD5(t_md5 *o, int newLine);
+char	*get_input(int fd);
+void	print_hash_md5(t_md5 *o, int new_line);
+int		try_open(char *file_name, t_md5 *o);
 
 #endif

@@ -12,70 +12,59 @@
 
 #include "ft_ssl.h"
 
-char	*getInput(int fd)
+void	full_init(t_md5 *o)
 {
-	char	buff[2];
-	char	*res;
-	char	*tmp;
-
-	ft_memset(buff, 0, 2);
-	res = ft_strdup("");
-	while (read(fd, buff, 1) > 0)
-	{
-		tmp = res;
-		res = ft_strjoin(res, buff);
-		free(tmp);
-	}
-	return (res);
+	o->h[0] = 0x67452301;
+	o->h[1] = 0xefcdab89;
+	o->h[2] = 0x98badcfe;
+	o->h[3] = 0x10325476;
+	o->newLen = ((((ft_strlen(o->input) + 8) / 64) + 1) * 64) - 8;
+	o->msg = ft_memalloc(o->newLen + 64);
 }
 
-void	md5Executor(t_md5 *o)
+void	p_flag(void)
+{
+	t_md5 another;
+
+	ft_bzero(&another, sizeof(another));
+	another.input = get_input(0);
+	full_init(&another);
+	ft_md5((uint8_t *)another.input, ft_strlen(another.input), &another);
+	ft_printf("%s\n", another.input);
+	print_hash_md5(&another, 1);
+}
+/*
+void	md5_flags_executor(t_md5 *o)
 {
 	char *input;
 
-	ft_md5((uint8_t *)o->input, ft_strlen(o->input), o);
 	if (o->q)
 	{
-		printHashMD5(o, 1);
+		print_hash_md5(o, 1);
 		return ;
 	}
-	if (o->p && !o->isFile)
-		ft_printf("%s\n", o->input);
+	if (o->p)
+		p_flag();
 	if (o->isStr || o->isFile)
 	{
-		o->isFile ? (input = o->fileName) : (input = o->input);
+		o->isFile ? (input = o->file_name) :
+			(input = o->input);
 		if (o->r)
 		{
-			printHashMD5(o, 0);
+			print_hash_md5(o, 0);
 			ft_printf(" %s\n", input);
 		}
 		else
 		{
 			ft_printf("MD5 (%s) = ", input);
-			printHashMD5(o, 1);
+			print_hash_md5(o, 1);
 		}
 	}
 	else
-		printHashMD5(o, 1);
+		print_hash_md5(o, 1);
 }
 
-int	tryOpen(char *fileName, t_md5 *o)
-{
-	int	fd;
-
-	if ((fd = open(fileName, O_RDONLY)) < 0)
-	{
-		ft_printf("%s: No such file or directory\n", fileName);
-		return (0);
-	}
-	o->input = getInput(fd);
-	o->fileName = fileName;
-	o->isFile = 1;
-	close(fd);
-	return (1);
-}
-
-void	checkFlagsMD5(int ac, char **av, t_md5 *o)
+void	check_flags_md5(int ac, char **av, t_md5 *o)
 {
 	int	i;
 
@@ -94,34 +83,33 @@ void	checkFlagsMD5(int ac, char **av, t_md5 *o)
 			o->isStr = 1;
 			++i;
 		}
-		else { printf(" open block");
-			if (!tryOpen(av[i], o))
-				break;}
+		else
+		{
+			if (!try_open(av[i], o))
+				break ;
+		}
 	}
 }
+*/
+// 1) -p add stdin to stdout
+// 2) -s add string as input
+// 3) -q prints only hashes
+// 4) -r reverse output, beated by -q
 
-void	fullInit(t_md5 *o)
-{
-	o->h[0] = 0x67452301;
-	o->h[1] = 0xefcdab89;
-	o->h[2] = 0x98badcfe;
-	o->h[3] = 0x10325476;
-	o->newLen = ((((ft_strlen(o->input) + 8) / 64) + 1) * 64) - 8;
-	o->msg = ft_memalloc(o->newLen + 64);
-}
-
-void	ft_md5Init(int ac, char **av)
+void	ft_md5_init(int ac, char **av)
 {
 	t_md5	o;
+	char	buff[2];
 
 	ft_bzero(&o, sizeof(o));
-	checkFlagsMD5(ac, av, &o);
+	check_flags_md5(ac, av, &o);
 	if (!o.isStr && !o.isFile)
-		o.input = getInput(0);
+		o.input = get_input(0);
 	if (ft_strlen(o.input))
 	{
-		fullInit(&o);
-		md5Executor(&o);
+		full_init(&o);
+		ft_md5((uint8_t *)o.input, ft_strlen(o.input), &o);
+		md5_flags_executor(&o);
 	}
 	else
 		ft_printf("Got no input.\n");
