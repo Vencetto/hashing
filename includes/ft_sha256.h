@@ -36,6 +36,23 @@ static const uint32_t g_kk[64] = {
 	0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
 };
 
+typedef struct		s_sha_vars
+{
+	uint32_t	a;
+	uint32_t	b;
+	uint32_t	c;
+	uint32_t	d;
+	uint32_t	e;
+	uint32_t	f;
+	uint32_t	g;
+	uint32_t	h;
+	uint32_t	i;
+	uint32_t	j;
+	uint32_t	t1;
+	uint32_t	t2;
+	uint32_t	m[64];
+}			t_sha_vars;
+
 typedef struct		s_sha256
 {
 	unsigned char	data[64];
