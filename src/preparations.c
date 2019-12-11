@@ -40,7 +40,7 @@ void	check_flags(int ac, char **av, t_flags *f)
 
 void	ft_sha256_init(int ac, char **av)
 {
-	SHA256_CTX ctx;
+	t_sha256 ctx;
 	unsigned char text1[] = {"abc"};
 	unsigned char buf[32];
 

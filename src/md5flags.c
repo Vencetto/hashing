@@ -99,7 +99,10 @@ void	stdin_md5(t_flags *f)
 		ft_printf(" %s\n", "*stdin");
 	}
 	else if (!f->q)
+	{
+		ft_printf("(stdin) = ");
 		print_hash_md5(&o, 1);
+	}
 	else
 		print_hash_md5(&o, 1);
 }

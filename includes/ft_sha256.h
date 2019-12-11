@@ -36,16 +36,17 @@ static const uint32_t g_kk[64] = {
 	0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
 };
 
-typedef struct			{
-	unsigned char		data[64];
-	uint32_t		datalen;
-	uint64_t		bitlen;
-	uint32_t		state[8];
-}				SHA256_CTX;
+typedef struct		s_sha256
+{
+	unsigned char	data[64];
+	uint32_t	datalen;
+	uint64_t	bitlen;
+	uint32_t	state[8];
+}			t_sha256;
 
 void		ft_sha256_init(int ac, char **av);
-void		sha256_init(SHA256_CTX *ctx);
-void		sha256_update(SHA256_CTX *ctx, const unsigned char data[], size_t len);
-void		sha256_final(SHA256_CTX *ctx, unsigned char hash[]);
+void		sha256_init(t_sha256 *ctx);
+void		sha256_update(t_sha256 *ctx, const unsigned char data[], size_t len);
+void		sha256_final(t_sha256 *ctx, unsigned char hash[]);
 
 #endif
