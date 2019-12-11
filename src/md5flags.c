@@ -52,6 +52,15 @@ void	p_flag_md5(t_flags *f, char *input)
 	f->p = 0;
 }
 
+void	all_files(t_flags *f, char **av, int i, int ac)
+{
+	while (i < ac)
+	{
+		file_md5(f, av[i]);
+		i++;
+	}
+}
+
 void	file_md5(t_flags *f, char *file_name)
 {
 	t_md5	o;

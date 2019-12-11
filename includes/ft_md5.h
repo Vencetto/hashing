@@ -85,10 +85,11 @@ void	ft_md5(uint8_t *initial_msg, size_t initial_len, t_md5 *o);
 void	ft_sha256(char *input_str);
 char	*get_input(int fd);
 void	print_hash_md5(t_md5 *o, int new_line);
-int		try_open(char *file_name, t_md5 *o);
+int	try_open(char *file_name, t_md5 *o);
 void	string_md5(t_flags *f, char *input);
 void	p_flag_md5(t_flags *f, char *input);
-void	file_md5(t_flags *f, char *input);
+void	file_md5(t_flags *f, char *file_name);
+void	all_files(t_flags *f, char **av, int i, int ac);
 void	full_init(t_md5 *o);
 void	stdin_md5(t_flags *f);
 

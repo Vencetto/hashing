@@ -21,7 +21,7 @@ int		main(int ac, char **av)
 		else if (ft_strequ(av[1], "sha256"))
 			ft_sha256_init(ac, av);
 		else
-				ft_printf("%s\n\n%s\n%s\n%s\n\n%s\n", "Standart commands:",
+			ft_printf("%s\n\n%s\n%s\n%s\n\n%s\n", "Standart commands:",
 			"Message Digest commands:", "md5", "sha256", "Cipher commands:");
 	}
 	else
