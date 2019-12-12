@@ -72,5 +72,6 @@ void		string_sha256(t_flags *f, char *input);
 void		p_flag_sha256(t_flags *f, char *input);
 void		file_sha256(t_flags *f, char *file_name);
 void		stdin_sha256(t_flags *f);
+void		sha256_transform(t_sha256 *o, const unsigned char data[]);
 
 #endif
