@@ -17,9 +17,9 @@ int		main(int ac, char **av)
 	if (ac > 1)
 	{
 		if (ft_strequ(av[1], "md5"))
-			ft_md5_init(ac, av);
+			full_md5(ac, av);
 		else if (ft_strequ(av[1], "sha256"))
-			ft_sha256_init(ac, av);
+			full_sha256(ac, av);
 		else
 			ft_printf("%s\n\n%s\n%s\n%s\n\n%s\n", "Standart commands:",
 			"Message Digest commands:", "md5", "sha256", "Cipher commands:");

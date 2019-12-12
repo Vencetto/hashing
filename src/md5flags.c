@@ -52,22 +52,13 @@ void	p_flag_md5(t_flags *f, char *input)
 	f->p = 0;
 }
 
-void	all_files(t_flags *f, char **av, int i, int ac)
-{
-	while (i < ac)
-	{
-		file_md5(f, av[i]);
-		i++;
-	}
-}
-
 void	file_md5(t_flags *f, char *file_name)
 {
 	t_md5	o;
 
 	f->read_try = 1;
 	ft_bzero(&o, sizeof(o));
-	if (!try_open(file_name, &o))
+	if (!try_open(file_name, o.input))
 		return ;
 	full_init(&o);
 	ft_md5((uint8_t *)o.input, ft_strlen(o.input), &o);

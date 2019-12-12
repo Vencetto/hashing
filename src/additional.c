@@ -10,7 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_md5.h"
+#include "ft_sha256.h"
+
+void	all_files(t_flags *f, char **av, int i, int ac)
+{
+	while (i < ac)
+	{
+		if (ft_strequ(av[1], "md5"))
+			file_md5(f, av[i]);
+		else if (ft_strequ(av[1], "sha256"))
+			file_sha256(f, av[i]);
+		i++;
+	}
+}
 
 void	print_hash_md5(t_md5 *o, int new_line)
 {
@@ -24,7 +36,18 @@ void	print_hash_md5(t_md5 *o, int new_line)
 		ft_printf("\n");
 }
 
-int		try_open(char *file_name, t_md5 *o)
+void	print_hash_sha256(t_sha256 *o, int new_line)
+{
+	int i;
+
+	i = -1;
+	while (++i < 32)
+		ft_printf("%2.2x", o->output[i]);
+	if (new_line)
+		ft_printf("\n");
+}
+
+int		try_open(char *file_name, char *input)
 {
 	int	fd;
 
@@ -33,7 +56,7 @@ int		try_open(char *file_name, t_md5 *o)
 		ft_printf("%s: No such file or directory\n", file_name);
 		return (0);
 	}
-	o->input = get_input(fd);
+	input = get_input(fd);
 	close(fd);
 	return (1);
 }

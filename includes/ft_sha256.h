@@ -59,11 +59,18 @@ typedef struct		s_sha256
 	uint32_t	datalen;
 	uint64_t	bitlen;
 	uint32_t	state[8];
+	unsigned char	*input;
+	unsigned char	output[32];
 }			t_sha256;
 
-void		ft_sha256_init(int ac, char **av);
+void		full_sha256(int ac, char **av);
 void		sha256_init(t_sha256 *ctx);
 void		sha256_update(t_sha256 *ctx, const unsigned char data[], size_t len);
 void		sha256_final(t_sha256 *ctx, unsigned char hash[]);
+void		print_hash_sha256(t_sha256 *o, int new_line);
+void		string_sha256(t_flags *f, char *input);
+void		p_flag_sha256(t_flags *f, char *input);
+void		file_sha256(t_flags *f, char *file_name);
+void		stdin_sha256(t_flags *f);
 
 #endif

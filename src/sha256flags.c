@@ -10,88 +10,95 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_md5.h"
-/*
-void	string_md5(t_flags *f, char *input)
+#include "ft_sha256.h"
+
+void	string_sha256(t_flags *f, char *input)
 {
-	t_md5	o;
+	t_sha256	o;
 
 	f->read_try = 1;
 	ft_bzero(&o, sizeof(o));
 	o.input = input;
-	full_init(&o);
-	ft_md5((uint8_t *)o.input, ft_strlen(o.input), &o);
+	sha256_init(&o);
+	sha256_update(&o, o.input, ft_strlen(o.input));
+	sha256_final(&o, o.output);
 	if (!f->q && f->r)
 	{
-		print_hash_md5(&o, 0);
+		print_hash_sha256(&o, 0);
 		ft_printf(" \"%s\"\n", o.input);
 	}
 	else if (!f->q)
 	{
-		ft_printf("MD5 (\"%s\") = ", o.input);
-		print_hash_md5(&o, 1);
+		ft_printf("SHA256 (\"%s\") = ", o.input);
+		print_hash_sha256(&o, 1);
 	}
 	else
-		print_hash_md5(&o, 1);
+		print_hash_sha256(&o, 1);
 }
 
-void	p_flag_md5(t_flags *f, char *input)
+void	p_flag_sha256(t_flags *f, char *input)
 {
-	t_md5	o;
+	t_sha256	o;
 
 	f->read_try = 1;
 	ft_bzero(&o, sizeof(o));
 	o.input = input;
-	full_init(&o);
-	ft_md5((uint8_t *)o.input, ft_strlen(o.input), &o);
+	sha256_init(&o);
+	sha256_update(&o, o.input, ft_strlen(o.input));
+	sha256_final(&o, o.output);
 	if (o.input[ft_strlen(o.input) - 1] == '\n')
 		ft_printf("%s", o.input);
 	else
 		ft_printf("%s\n", o.input);
-	print_hash_md5(&o, 1);
+	print_hash_sha256(&o, 1);
 	f->p = 0;
 }
 
-void	file_md5(t_flags *f, char *file_name)
+void	file_sha256(t_flags *f, char *file_name)
 {
-	t_md5	o;
+	t_sha256	o;
 
 	f->read_try = 1;
 	ft_bzero(&o, sizeof(o));
-	if (!try_open(file_name, &o))
+	sha256_init(&o);
+	sha256_update(&o, o.input, ft_strlen(o.input));
+	sha256_final(&o, o.output);
+	if (!try_open(file_name, o.input))
 		return ;
-	full_init(&o);
-	ft_md5((uint8_t *)o.input, ft_strlen(o.input), &o);
 	if (!f->q && f->r)
 	{
-		print_hash_md5(&o, 0);
+		print_hash_sha256(&o, 0);
 		ft_printf(" %s\n", file_name);
 	}
 	else if (!f->q)
 	{
-		ft_printf("MD5 (%s) = ", file_name);
-		print_hash_md5(&o, 1);
+		ft_printf("SHA256 (%s) = ", file_name);
+		print_hash_sha256(&o, 1);
 	}
 	else
-		print_hash_md5(&o, 1);
+		print_hash_sha256(&o, 1);
 }
 
-void	stdin_md5(t_flags *f)
+void	stdin_sha256(t_flags *f)
 {
-	t_md5	o;
+	t_sha256	o;
 
 	ft_bzero(&o, sizeof(o));
 	o.input = get_input(0);
-	full_init(&o);
-	ft_md5((uint8_t *)o.input, ft_strlen(o.input), &o);
+	sha256_init(&o);
+	sha256_update(&o, o.input, ft_strlen(o.input));
+	sha256_final(&o, o.output);
 	if (!f->q && f->r)
 	{
-		print_hash_md5(&o, 0);
+		print_hash_sha256(&o, 0);
 		ft_printf(" %s\n", "*stdin");
 	}
 	else if (!f->q)
-		print_hash_md5(&o, 1);
+	{
+		ft_printf("(stdin) = ");
+		print_hash_sha256(&o, 1);
+	}
 	else
-		print_hash_md5(&o, 1);
+		print_hash_sha256(&o, 1);
 }
-*/
+

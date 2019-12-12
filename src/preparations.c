@@ -52,26 +52,33 @@ void	check_flags(int ac, char **av, t_flags *f)
 	}
 }
 
-void	ft_sha256_init(int ac, char **av)
-{
-	t_sha256 ctx;
-	unsigned char text1[] = {"abc"};
-	unsigned char buf[32];
-
-	sha256_init(&ctx);
-	sha256_update(&ctx, text1, strlen(text1));
-	sha256_final(&ctx, buf);
-	int i = -1;
-	while (++i < sizeof(buf))
-		ft_printf("%2.2x", buf[i]);
-	ft_printf("\n");
-	return ;
-}
-
-void	ft_md5_init(int ac, char **av)
+void	full_sha256(int ac, char **av)
 {
 	t_flags	f;
-	char	buff[2];
+//	char	buff[2];
+	int		i;
+
+	ft_bzero(&f, sizeof(f));
+	check_flags(ac, av, &f);
+	i = 1;
+	while (++i < ac)
+	{
+		if (f.p)
+			p_flag_sha256(&f, get_input(0));
+		if (ft_strcmp(av[i], "-s") == 0 && ac > i)
+			string_sha256(&f, av[++i]);
+		else if (!ft_strequ(av[i], "-r") && !ft_strequ(av[i], "-q")
+			&& !ft_strequ(av[i], "-p"))
+			all_files(&f, av, i, ac);
+	}
+	if (!f.read_try)
+		stdin_sha256(&f);
+}
+
+void	full_md5(int ac, char **av)
+{
+	t_flags	f;
+//	char	buff[2];
 	int		i;
 
 	ft_bzero(&f, sizeof(f));
