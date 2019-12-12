@@ -47,16 +47,16 @@ void	print_hash_sha256(t_sha256 *o, int new_line)
 		ft_printf("\n");
 }
 
-int		try_open(char *file_name, char *input)
+int	try_open(char *file_name, unsigned char **input, char *function)
 {
 	int	fd;
 
 	if ((fd = open(file_name, O_RDONLY)) < 0)
 	{
-		ft_printf("%s: No such file or directory\n", file_name);
+		ft_printf("ft_ssl: %s: %s: No such file or directory\n", function, file_name);
 		return (0);
 	}
-	input = get_input(fd);
+	*input = get_input(fd);
 	close(fd);
 	return (1);
 }

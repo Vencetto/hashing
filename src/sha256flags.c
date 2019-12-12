@@ -60,11 +60,11 @@ void	file_sha256(t_flags *f, char *file_name)
 
 	f->read_try = 1;
 	ft_bzero(&o, sizeof(o));
+	if (!try_open(file_name, &o.input, "sha256"))
+		return ;
 	sha256_init(&o);
 	sha256_update(&o, o.input, ft_strlen(o.input));
 	sha256_final(&o, o.output);
-	if (!try_open(file_name, o.input))
-		return ;
 	if (!f->q && f->r)
 	{
 		print_hash_sha256(&o, 0);
@@ -92,11 +92,6 @@ void	stdin_sha256(t_flags *f)
 	{
 		print_hash_sha256(&o, 0);
 		ft_printf(" %s\n", "*stdin");
-	}
-	else if (!f->q)
-	{
-		ft_printf("(stdin) = ");
-		print_hash_sha256(&o, 1);
 	}
 	else
 		print_hash_sha256(&o, 1);

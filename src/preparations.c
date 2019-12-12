@@ -55,8 +55,7 @@ void	check_flags(int ac, char **av, t_flags *f)
 void	full_sha256(int ac, char **av)
 {
 	t_flags	f;
-//	char	buff[2];
-	int		i;
+	int	i;
 
 	ft_bzero(&f, sizeof(f));
 	check_flags(ac, av, &f);
@@ -69,7 +68,10 @@ void	full_sha256(int ac, char **av)
 			string_sha256(&f, av[++i]);
 		else if (!ft_strequ(av[i], "-r") && !ft_strequ(av[i], "-q")
 			&& !ft_strequ(av[i], "-p"))
+		{
 			all_files(&f, av, i, ac);
+			return ;
+		}
 	}
 	if (!f.read_try)
 		stdin_sha256(&f);
@@ -78,8 +80,7 @@ void	full_sha256(int ac, char **av)
 void	full_md5(int ac, char **av)
 {
 	t_flags	f;
-//	char	buff[2];
-	int		i;
+	int	i;
 
 	ft_bzero(&f, sizeof(f));
 	check_flags(ac, av, &f);
@@ -92,7 +93,10 @@ void	full_md5(int ac, char **av)
 			string_md5(&f, av[++i]);
 		else if (!ft_strequ(av[i], "-r") && !ft_strequ(av[i], "-q")
 			&& !ft_strequ(av[i], "-p"))
+		{
 			all_files(&f, av, i, ac);
+			return ;
+		}
 	}
 	if (!f.read_try)
 		stdin_md5(&f);

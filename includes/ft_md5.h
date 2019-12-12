@@ -53,20 +53,20 @@ static const unsigned int g_k[] =
 
 typedef struct	s_flags
 {
-	int			r;
-	int			p;
-	int			q;
-	int			read_try;
-}				t_flags;
+	int	r;
+	int	p;
+	int	q;
+	int	read_try;
+}		t_flags;
 
-typedef struct	s_md5
+typedef struct		s_md5
 {
-	char		*input;
-	int			new_len;
+	unsigned char	*input;
+	int		new_len;
 	uint8_t		*output[4];
 	uint32_t	h[4];
 	uint8_t		*msg;
-}				t_md5;
+}			t_md5;
 
 typedef struct	s_vars
 {
@@ -84,7 +84,7 @@ void	full_md5(int ac, char **av);
 void	ft_md5(uint8_t *initial_msg, size_t initial_len, t_md5 *o);
 char	*get_input(int fd);
 void	print_hash_md5(t_md5 *o, int new_line);
-int	try_open(char *file_name, char *input);
+int	try_open(char *file_name, unsigned char **input, char *function);
 void	string_md5(t_flags *f, char *input);
 void	p_flag_md5(t_flags *f, char *input);
 void	file_md5(t_flags *f, char *file_name);

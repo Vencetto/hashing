@@ -58,7 +58,7 @@ void	file_md5(t_flags *f, char *file_name)
 
 	f->read_try = 1;
 	ft_bzero(&o, sizeof(o));
-	if (!try_open(file_name, o.input))
+	if (!try_open(file_name, &o.input, "md5"))
 		return ;
 	full_init(&o);
 	ft_md5((uint8_t *)o.input, ft_strlen(o.input), &o);
@@ -88,11 +88,6 @@ void	stdin_md5(t_flags *f)
 	{
 		print_hash_md5(&o, 0);
 		ft_printf(" %s\n", "*stdin");
-	}
-	else if (!f->q)
-	{
-		ft_printf("(stdin) = ");
-		print_hash_md5(&o, 1);
 	}
 	else
 		print_hash_md5(&o, 1);
